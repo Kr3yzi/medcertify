@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 
 export default function SidebarWidget() {
-  const { user, primaryRole } = useAuth();
+  const { primaryRole, address } = useAuth();
 
   const getQuickActions = () => {
     switch (primaryRole) {
@@ -26,19 +26,22 @@ export default function SidebarWidget() {
   };
 
   const quickActions = getQuickActions();
+  
+  // Format the address for display
+  const shortAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'Not Connected';
 
   return (
     <div className="mx-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5">
       <div className="mb-4 flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-brand-500 flex items-center justify-center text-white">
-          {user?.name?.[0]?.toUpperCase() || "U"}
+          {address ? address[0].toUpperCase() : "?"}
         </div>
         <div className="text-left">
           <h3 className="font-semibold text-gray-900">
-            {user?.name || "User"}
+            {shortAddress}
           </h3>
           <p className="text-sm text-gray-500 capitalize">
-            {primaryRole}
+            {primaryRole || "No Role"}
           </p>
         </div>
       </div>

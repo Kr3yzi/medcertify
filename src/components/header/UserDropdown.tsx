@@ -32,7 +32,7 @@ export default function UserDropdown() {
           {address ? (
             <MetaMaskAvatar address={address} size={44} />
           ) : (
-            <img src="/images/user/owner.jpg" alt="User" className="object-cover w-full h-full" />
+            <img src={`${import.meta.env.BASE_URL}icons/user-circle.svg`} alt="User" className="object-cover w-full h-full" />
           )}
         </span>
         <span className="block mr-1 font-medium text-theme-sm text-gray-800">{address ? truncateAddress(address) : 'Not connected'}</span>

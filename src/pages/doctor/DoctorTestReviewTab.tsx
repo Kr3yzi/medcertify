@@ -140,10 +140,22 @@ const DoctorTestReviewTab: React.FC<DoctorTestReviewTabProps> = ({ tests, patien
 
   // Diagnosis templates for each test/vaccine type
   const diagnosisTemplates: Record<string, string> = {
-    "Full Blood Count (FBC)": `This is to certify that the patient's blood test results are within normal limits.`,
-    "MMR Vaccine": `This is to certify that the above-named patient has received the MMR vaccine and is fit for school attendance.`,
-    "Urinalysis": `This is to certify that the patient's urinalysis results are within normal limits.`,
-    // Add more as needed
+    "Full Blood Count (FBC)": "This is to certify that the patient's blood test results are within normal limits.",
+    "Urinalysis": "This is to certify that the patient's urinalysis results are within normal limits.",
+    "Chest X-ray": "This is to certify that the patient's chest X-ray shows no abnormal findings.",
+    "TB Test (Mantoux)": "This is to certify that the patient's Mantoux test result is negative for tuberculosis.",
+    "Hepatitis B Surface Antigen (HBsAg)": "This is to certify that the patient's Hepatitis B Surface Antigen (HBsAg) test is negative.",
+    "HIV Test": "This is to certify that the patient's HIV test is negative and no HIV antibodies were detected.",
+    "Syphilis (VDRL/RPR)": "This is to certify that the patient's syphilis (VDRL/RPR) test is negative.",
+    "Typhoid Test": "This is to certify that the patient's typhoid test is negative.",
+    "Pregnancy Test (Urine hCG)": "This is to certify that the patient's urine hCG pregnancy test is negative.",
+    "COVID-19 PCR Test": "This is to certify that the patient's COVID-19 PCR test is negative.",
+    "Fitness Assessment": "This is to certify that the patient has undergone a fitness assessment and is fit for the intended activity.",
+    "Hepatitis B Vaccine": "This is to certify that the above-named patient has received the Hepatitis B vaccine.",
+    "Typhoid Vaccine": "This is to certify that the above-named patient has received the Typhoid vaccine.",
+    "Tetanus Vaccine": "This is to certify that the above-named patient has received the Tetanus vaccine.",
+    "MMR Vaccine": "This is to certify that the above-named patient has received the MMR vaccine and is fit for school attendance.",
+    "COVID-19 Vaccine": "This is to certify that the above-named patient has received the COVID-19 vaccine.",
   };
 
   // Auto-fill template when modal opens or selectedTest changes

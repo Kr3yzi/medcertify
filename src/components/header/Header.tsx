@@ -1,6 +1,6 @@
 import { useState } from "react";
-import UserDropdown from "./UserDropdown";
-import { Link } from "react-router";
+import UserDropdown from "./UserDropdown.tsx";
+import { Link } from "react-router-dom";
 
 // Define the interface for the props
 interface HeaderProps {
@@ -79,12 +79,7 @@ const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
           <Link to="/" className="lg:hidden">
             <img
               className="dark:hidden"
-              src="./images/logo/logo.svg"
-              alt="Logo"
-            />
-            <img
-              className="hidden dark:block"
-              src="./images/logo/logo-dark.svg"
+              src={`${import.meta.env.BASE_URL}images/logo/logo.svg`}
               alt="Logo"
             />
           </Link>

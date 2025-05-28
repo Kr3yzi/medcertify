@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/AuthPages/SignIn";
 import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/UserProfiles";
@@ -7,7 +7,6 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import ReceptionistDashboard from './pages/receptionist/ReceptionistDashboard.tsx';
 import DoctorDashboard from "./pages/doctor/DoctorDashboard.tsx";
-//import ApiTestPage from "./pages/ApiTestPage";
 import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import NurseDashboard from "./pages/nurse/NurseDashboard.tsx";
 import PatientDashboard from "./pages/patient/PatientDashboard.tsx";

@@ -48,7 +48,6 @@ const roleNavItems: Record<string, NavItem[]> = {
       subItems: [
         { name: "User Management", path: "/admin?tab=users" },
         { name: "Audit Logs", path: "/admin?tab=logs" },
-        { name: "System Settings", path: "/admin?tab=settings" },
       ],
     },
   ],
@@ -70,7 +69,6 @@ const roleNavItems: Record<string, NavItem[]> = {
       subItems: [
         { name: "Medical Records", path: "/patient?tab=records" },
         { name: "Certificates", path: "/patient?tab=certificates" },
-        { name: "Verify Certificate", path: "/patient?tab=verify" },
       ],
     },
   ],
@@ -89,8 +87,8 @@ const AppSidebar: React.FC = () => {
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>({});
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // Dynamically set navItems based on role (must be before useEffect)
-  const navItems = roleNavItems[primaryRole] || [];
+  // Fix: Add type guard for primaryRole
+  const navItems = primaryRole && roleNavItems[primaryRole] ? roleNavItems[primaryRole] : [];
 
   const isActive = useCallback(
     (path: string) => location.pathname === path,
@@ -294,7 +292,7 @@ const AppSidebar: React.FC = () => {
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
               <img
-                src="/images/logo/Logo 1.png"
+                src={`${import.meta.env.BASE_URL}images/logo/logo-1.png`}
                 alt="Logo"
                 width={150}
                 height={40}
@@ -302,7 +300,7 @@ const AppSidebar: React.FC = () => {
               />
           ) : (
             <img
-              src="/images/logo/Logo 1.png"
+              src={`${import.meta.env.BASE_URL}images/logo/logo-1.png`}
               alt="Logo"
               width={40}
               height={40}

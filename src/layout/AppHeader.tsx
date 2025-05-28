@@ -81,7 +81,11 @@ const AppHeader: React.FC = () => {
           </button>
 
           <Link to="/" className="lg:hidden">
-            <img src="/images/logo/Logo 1.png" alt="Logo" style={{ objectFit: 'contain', borderRadius: 8 }} />
+            <img
+              src={`${import.meta.env.BASE_URL}images/logo/logo-1.png`}
+              alt="Logo"
+              className="max-w-[100px] w-full h-auto object-contain rounded-lg"
+            />
           </Link>
 
           <button
