@@ -12,8 +12,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/react": "11.1.1",
+    "@emotion/styled": "11.11.0",
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/interaction": "^6.1.15",
@@ -81,5 +81,6 @@
       "react-dom": "^16.8.0 || ^17 || ^18 || ^19"
     }
   },
-  "homepage": "https://kr3yzi.github.io/"
+  "homepage": "https://kr3yzi.github.io/",
+  "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
 }
