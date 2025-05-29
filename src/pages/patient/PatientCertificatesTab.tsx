@@ -1,4 +1,4 @@
-import React, { useState, ReactElement } from 'react';
+import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { Modal } from "../../components/ui/modal";
@@ -27,7 +27,6 @@ interface Props {
   certs: Certificate[];
   loading: boolean;
   error: string | null;
-  demographics?: Demographics;
 }
 
 const fetchDecryptedCertificate = async (patientAddress: string, certHash: string) => {
@@ -70,8 +69,8 @@ async function verifyCertificate(cert: Certificate) {
   }
 }
 
-const PatientCertificatesTab = ({ certs, loading, error, demographics }: Props): ReactElement => {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | undefined }> = ({ certs, loading, error, demographics }) => {
+  const [modalOpen, setModalOpen] = useState(false);
   const [pendingCert, setPendingCert] = useState<Certificate | null>(null);
 
   const handleDownloadClick = (cert: Certificate) => {
@@ -260,7 +259,7 @@ const PatientCertificatesTab = ({ certs, loading, error, demographics }: Props):
                 </tr>
               </thead>
               <tbody>
-                {certs.map((cert: Certificate) => (
+                {certs.map(cert => (
                   <tr key={cert._id}>
                     <td className="px-2 py-1 border">{cert.certType || '-'}</td>
                     <td className="px-2 py-1 border break-all">{cert.ipfsCid || cert.certHash || '-'}</td>
@@ -289,7 +288,7 @@ const PatientCertificatesTab = ({ certs, loading, error, demographics }: Props):
           </div>
           {/* Mobile Cards */}
           <div className="block md:hidden space-y-3">
-            {certs.map((cert: Certificate) => (
+            {certs.map(cert => (
               <div key={cert._id} className="border rounded-lg p-3 bg-white shadow">
                 <div className="font-semibold mb-1">{cert.certType || '-'}</div>
                 <div className="text-xs text-gray-500 mb-1">CID: <span className="break-all">{truncateMiddle(cert.ipfsCid || cert.certHash || '-')}</span></div>
