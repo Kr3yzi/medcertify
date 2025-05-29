@@ -23,10 +23,10 @@ const PatientVerifyCertificate: React.FC = () => {
         certHash
       });
       setResult(response.data);
-      setDebug(prev => prev + `\nResponse: ${JSON.stringify(response.data, null, 2)}`);
+      setDebug((prev: string) => prev + `\nResponse: ${JSON.stringify(response.data, null, 2)}`);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Verification failed');
-      setDebug(prev => prev + `\nError: ${JSON.stringify(err.response?.data || err, null, 2)}`);
+      setDebug((prev: string) => prev + `\nError: ${JSON.stringify(err.response?.data || err, null, 2)}`);
     } finally {
       setLoading(false);
     }
@@ -117,4 +117,4 @@ const PatientVerifyCertificate: React.FC = () => {
   );
 };
 
-export default PatientVerifyCertificate;
+export default PatientVerifyCertificate; 
