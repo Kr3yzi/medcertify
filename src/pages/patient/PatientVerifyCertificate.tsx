@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Box, Button, TextField, Typography, Paper, CircularProgress } from '@mui/material';
+import api from '../../api';
 
 const PatientVerifyCertificate: React.FC = () => {
   const [certHash, setCertHash] = useState('');
@@ -14,7 +15,10 @@ const PatientVerifyCertificate: React.FC = () => {
     setResult(null);
     setError(null);
     try {
-      const response = await axios.post('/verify-certificate', { certHash, cid });
+      const response = await axios.post('/verify-certificate', { 
+        patientAddress,
+        certHash
+      });
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Verification failed');

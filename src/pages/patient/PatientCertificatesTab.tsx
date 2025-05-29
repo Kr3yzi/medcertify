@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { Modal } from "../../components/ui/modal";
+import api from '../../api';
 
 interface Demographics {
   fullName?: string;
