@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactElement } from 'react';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import { Modal } from "../../components/ui/modal";
@@ -27,6 +27,7 @@ interface Props {
   certs: Certificate[];
   loading: boolean;
   error: string | null;
+  demographics?: Demographics;
 }
 
 const fetchDecryptedCertificate = async (patientAddress: string, certHash: string) => {
@@ -54,26 +55,23 @@ function truncateMiddle(str: string, frontLen = 8, backLen = 6) {
   return str.slice(0, frontLen) + '...' + str.slice(-backLen);
 }
 
-const logoBase64 = undefined; // Optionally import your logo as base64 string here
+const logoBase64 = undefined; 
 
 // Helper to verify certificate and return full result
 async function verifyCertificate(cert: Certificate) {
   try {
-    const response = await fetch('/verify-certificate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ patientAddress: cert.patient, certHash: cert.certHash }),
+    const response = await api.post('/verify-certificate', {
+      patientAddress: cert.patient,
+      certHash: cert.certHash
     });
-    if (!response.ok) return null;
-    const result = await response.json();
-    return result;
+    return response.data;
   } catch {
     return null;
   }
 }
 
-const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | undefined }> = ({ certs, loading, error, demographics }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+const PatientCertificatesTab = ({ certs, loading, error, demographics }: Props): ReactElement => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [pendingCert, setPendingCert] = useState<Certificate | null>(null);
 
   const handleDownloadClick = (cert: Certificate) => {
@@ -90,7 +88,14 @@ const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | un
 
   const downloadCertificatePDF = async (cert: Certificate, demographics: Demographics | undefined, showFullIC: boolean) => {
     try {
-      // Use cert.patient if available, otherwise show error
+      // 1. Verify certificate first
+      const verificationResult = await verifyCertificate(cert);
+      if (!verificationResult || !verificationResult.isValid) {
+        alert('Certificate is invalid: ' + (verificationResult?.reason || 'Unknown reason'));
+        return;
+      }
+
+      // 2. Only fetch and decrypt if valid
       const patientAddress = cert.patient;
       if (!patientAddress) {
         alert('Patient address not found for this certificate.');
@@ -101,7 +106,6 @@ const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | un
         return;
       }
       const data = await fetchDecryptedCertificate(patientAddress, cert.certHash);
-      const verificationResult = await verifyCertificate(cert);
       // Debug output
       if (verificationResult) {
         console.log('Certificate Verification Debug:', verificationResult);
@@ -262,7 +266,7 @@ const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | un
                 </tr>
               </thead>
               <tbody>
-                {certs.map(cert => (
+                {certs.map((cert: Certificate) => (
                   <tr key={cert._id}>
                     <td className="px-2 py-1 border">{cert.certType || '-'}</td>
                     <td className="px-2 py-1 border break-all">{cert.ipfsCid || cert.certHash || '-'}</td>
@@ -291,7 +295,7 @@ const PatientCertificatesTab: React.FC<Props & { demographics: Demographics | un
           </div>
           {/* Mobile Cards */}
           <div className="block md:hidden space-y-3">
-            {certs.map(cert => (
+            {certs.map((cert: Certificate) => (
               <div key={cert._id} className="border rounded-lg p-3 bg-white shadow">
                 <div className="font-semibold mb-1">{cert.certType || '-'}</div>
                 <div className="text-xs text-gray-500 mb-1">CID: <span className="break-all">{truncateMiddle(cert.ipfsCid || cert.certHash || '-')}</span></div>
