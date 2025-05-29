@@ -14,7 +14,7 @@ const PatientVerifyCertificate: React.FC = () => {
     setResult(null);
     setError(null);
     try {
-      const response = await axios.post('/api/verify-certificate', { certHash, cid });
+      const response = await axios.post('/verify-certificate', { certHash, cid });
       setResult(response.data);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Verification failed');
