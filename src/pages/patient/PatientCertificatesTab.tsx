@@ -59,11 +59,14 @@ const logoBase64 = undefined; // Optionally import your logo as base64 string he
 // Helper to verify certificate and return full result
 async function verifyCertificate(cert: Certificate) {
   try {
-    const response = await api.post('/verify-certificate', {
-      patientAddress: cert.patient,
-      certHash: cert.certHash
+    const response = await fetch('/verify-certificate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ patientAddress: cert.patient, certHash: cert.certHash }),
     });
-    return response.data;
+    if (!response.ok) return null;
+    const result = await response.json();
+    return result;
   } catch {
     return null;
   }
