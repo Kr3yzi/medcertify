@@ -30,7 +30,7 @@ interface Props {
 
 const fetchDecryptedCertificate = async (patientAddress: string, certHash: string) => {
 
-  const BACKEND_BASE_URL = 'https://medcertify-backend.up.railway.app';
+  const BACKEND_BASE_URL = 'https://medcertify-backend-production.up.railway.app';
   console.log('Calling fetchDecryptedCertificate', patientAddress, certHash);
   const response = await fetch(`${BACKEND_BASE_URL}/api/patients/${patientAddress}/certificates/${certHash}/`, {
     headers: { 'Authorization': `Bearer ${localStorage.getItem('jwt')}` }

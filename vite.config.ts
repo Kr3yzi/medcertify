@@ -15,7 +15,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': 'https://medcertify-backend.up.railway.app',
+      '/api': 'https://medcertify-backend-production.up.railway.app',
     }
   },
   base: '/',
