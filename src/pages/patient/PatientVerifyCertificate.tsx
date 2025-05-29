@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
-import api from '../../api';
+import axios from 'axios';
 import { Box, Button, TextField, Typography, Paper, CircularProgress } from '@mui/material';
+import api from '../../api';
 
 const PatientVerifyCertificate: React.FC = () => {
-  const [patientAddress, setPatientAddress] = useState('');
   const [certHash, setCertHash] = useState('');
   const [cid, setCid] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [debug, setDebug] = useState<string>('');
 
   const handleVerify = async () => {
     setLoading(true);
     setResult(null);
     setError(null);
-    setDebug('');
     try {
-      setDebug(`Request: patientAddress=${patientAddress}, certHash=${certHash}`);
-      const response = await api.post('/verify-certificate', {
-        patientAddress,
-        certHash
-      });
+      const response = await axios.post('/verify-certificate', { 
+        certHash, cid });
       setResult(response.data);
-      setDebug((prev: string) => prev + `\nResponse: ${JSON.stringify(response.data, null, 2)}`);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Verification failed');
-      setDebug((prev: string) => prev + `\nError: ${JSON.stringify(err.response?.data || err, null, 2)}`);
     } finally {
       setLoading(false);
     }
@@ -39,13 +32,6 @@ const PatientVerifyCertificate: React.FC = () => {
           Verify Health Certificate
         </Typography>
         <TextField
-          label="Patient Address"
-          value={patientAddress}
-          onChange={e => setPatientAddress(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
           label="Certificate Hash"
           value={certHash}
           onChange={e => setCertHash(e.target.value)}
@@ -53,7 +39,7 @@ const PatientVerifyCertificate: React.FC = () => {
           margin="normal"
         />
         <TextField
-          label="IPFS CID (not required for verification)"
+          label="IPFS CID"
           value={cid}
           onChange={e => setCid(e.target.value)}
           fullWidth
@@ -63,7 +49,7 @@ const PatientVerifyCertificate: React.FC = () => {
           variant="contained"
           color="primary"
           onClick={handleVerify}
-          disabled={loading || !certHash || !patientAddress}
+          disabled={loading || !certHash || !cid}
           fullWidth
           sx={{ mt: 2 }}
         >
@@ -103,13 +89,6 @@ const PatientVerifyCertificate: React.FC = () => {
                 Debug: isValid = foundOnChain({String(result.foundOnChain)}) &amp;&amp; hashMatch({String(result.hashMatch)}) &amp;&amp; ipfsOk({String(result.ipfsOk)})
               </Typography>
             </Paper>
-          </Box>
-        )}
-        {debug && (
-          <Box mt={2}>
-            <Typography variant="body2" sx={{ color: '#888', whiteSpace: 'pre-wrap' }}>
-              {debug}
-            </Typography>
           </Box>
         )}
       </Paper>
